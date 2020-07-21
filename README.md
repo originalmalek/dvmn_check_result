@@ -13,8 +13,8 @@ The project use:
 
 
 # Requirements
-Python >=3.7
-Create bot on [telegram.org](https://t.me/botfather) ang get API key
+Python >=3.7  
+Create bot on [telegram.org](https://t.me/botfather) ang get API key.  
 Get Devman API key [here](https://dvmn.org/api/docs/)
 
 Create file '.env' and add the code
