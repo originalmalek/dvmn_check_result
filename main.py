@@ -1,5 +1,5 @@
 import requests
-import os
+import os , sys
 import telebot
 from dotenv import load_dotenv
 from time import sleep
@@ -27,18 +27,20 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
         try:
             response = requests.get(url, headers=header, params=payload, timeout=60)
             if response.ok:
-                response = response.json()
-                if 'timestamp_to_request' in response:
-                    timestamp = str(response['timestamp_to_request'])
+                response_hh = response.json()
+                if 'timestamp_to_request' in response_hh:
+                    timestamp = response_hh['timestamp_to_request']
 
-                if 'last_attempt_timestamp' in response:
-                    timestamp = str(response['last_attempt_timestamp'])
-                    send_message(tg_token, tg_chat_id, response['new_attempts'])
+                if 'last_attempt_timestamp' in response_hh:
+                    timestamp = response_hh['last_attempt_timestamp']
+                    send_message(tg_token, tg_chat_id, response_hh['new_attempts'])
 
                 payload = {'timestamp': timestamp}
         except requests.exceptions.ReadTimeout:
             pass
-        except requests.exceptions.ConnectionError:
+        except requests.exceptions.ConnectionError as e:
+            sys.stderr.write('No Internet Connection \n')
+            print(sys.stderr , e)
             sleep(60)
 
 
