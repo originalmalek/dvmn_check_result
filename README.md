@@ -2,7 +2,7 @@
 The project check result of your work on [Devman](http://dvmn.org). 
 
 
-# Description
+## Description
 The code: 
 Check your result of your work on [Devman](http://dvmn.org).
 
@@ -12,7 +12,7 @@ Check your result of your work on [Devman](http://dvmn.org).
   
 
 
-# Requirements
+## Requirements
 Python >=3.7  
 Create bot on [telegram.org](https://t.me/botfather) ang get API key.  
 Get Devman API key [here](https://dvmn.org/api/docs/).
@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ```
 
 
-# How to use
+### How to use
 
 Install requirements.  
 Open and run 'main.py'.
@@ -39,10 +39,10 @@ python main.py
 ```
 
 
-# Additional information
+## Additional information
 You have to get Devman API key [here](https://dvmn.org/api/docs/).  
 
-# Project goal
+## Project goal
 
 The code was written for educational purpose on online course for Api developers [Devman](http://dvmn.org). 
 
