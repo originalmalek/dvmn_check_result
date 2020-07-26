@@ -1,4 +1,4 @@
-# dvmn_check_lesson
+# Check result on DVMN.org
 The project check result of your work on [Devman](http://dvmn.org). 
 
 
