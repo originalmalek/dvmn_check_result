@@ -19,7 +19,7 @@ Get Devman API key [here](https://dvmn.org/api/docs/).
 
 Create file '.env' and add the code:
 ```
-TOKEN_DVMN = your_devman_token
+DVMN_TOKEN = your_devman_token
 TOKEN_TLGRM = your_telegram_bot_token
 TG_CHAT_ID = your_telegram_chat_id
 ```
