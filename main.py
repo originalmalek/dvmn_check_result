@@ -49,9 +49,9 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
 def main():
     load_dotenv()
 
-    dvmn_token = os.getenv('DVMN_TOKEN')
-    tg_token = os.getenv('TG_TOKEN')
-    tg_chat_id = os.getenv('TG_CHAT_ID')
+    dvmn_token = os.environ['DVMN_TOKEN']
+    tg_token = os.environ['TG_TOKEN']
+    tg_chat_id = os.environ['TG_CHAT_ID']
 
     check_dvmn_result(dvmn_token, tg_token, tg_chat_id)
 
