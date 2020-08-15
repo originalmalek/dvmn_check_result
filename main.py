@@ -49,7 +49,7 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
 
 def main():
     # logging.basicConfig(level=logging.DEBUG)
-    logging.warning('Бот запущен!')
+    logging.warning('Бот запущен heroku!')
     load_dotenv()
 
     dvmn_token = os.getenv('DVMN_TOKEN')
