@@ -3,6 +3,9 @@ import os , sys
 import telebot
 from dotenv import load_dotenv
 from time import sleep
+import logging
+
+
 
 def send_message(tg_token, tg_chat_id, new_attempts):
     bot = telebot.TeleBot(tg_token, parse_mode='MARKDOWN')
@@ -14,17 +17,15 @@ def send_message(tg_token, tg_chat_id, new_attempts):
         else:
             is_negative = 'Преподаватель *принял* вашу работу! Можете приступать к следующему уроку.'
 
-        bot.send_message(tg_chat_id, f'Урок: '
-                                     f'*{lesson_title}.*\nВаша работа проверена!\n\n{is_negative}')
+        bot.send_message(tg_chat_id, f'Урок: *{lesson_title}.*\nВаша работа проверена!\n\n{is_negative}')
 
 
 
 def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
     header = {'Authorization': f'Token {dvmn_token}'}
     payload = {}
-
+    url = 'https://dvmn.org/api/long_polling/'
     while True:
-        url = 'https://dvmn.org/api/long_polling/'
         try:
             response = requests.get(url, headers=header, params=payload, timeout=60)
             response.raise_for_status()
@@ -47,15 +48,16 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
 
 
 def main():
+    # logging.basicConfig(level=logging.DEBUG)
+    logging.warning('Бот запущен!')
     load_dotenv()
 
-    dvmn_token = os.environ['DVMN_TOKEN']
-    tg_token = os.environ['TG_TOKEN']
-    tg_chat_id = os.environ['TG_CHAT_ID']
+    dvmn_token = os.getenv('DVMN_TOKEN')
+    tg_token = os.getenv('TG_TOKEN')
+    tg_chat_id = os.getenv('TG_CHAT_ID')
 
     check_dvmn_result(dvmn_token, tg_token, tg_chat_id)
 
 
 if __name__ == '__main__':
     main()
-    
