@@ -1,10 +1,10 @@
 import requests
-import os , sys
+import os
+import sys
 import telebot
 from dotenv import load_dotenv
 from time import sleep
 import logging
-
 
 
 def send_message(tg_token, tg_chat_id, new_attempts):
@@ -19,6 +19,10 @@ def send_message(tg_token, tg_chat_id, new_attempts):
 
         bot.send_message(tg_chat_id, f'Урок: *{lesson_title}.*\nВаша работа проверена!\n\n{is_negative}')
 
+
+def send_log_message(tg_token, tg_chat_id, text):
+    bot = telebot.TeleBot(tg_token, parse_mode='MARKDOWN')
+    bot.send_message(tg_chat_id, text)
 
 
 def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
@@ -43,20 +47,34 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
             pass
         except requests.exceptions.ConnectionError as e:
             sys.stderr.write('No Internet Connection \n')
-            print(sys.stderr , e)
+            print(sys.stderr, e)
             sleep(60)
 
 
 def main():
-    # logging.basicConfig(level=logging.DEBUG)
-    logging.warning('Бот запущен heroku!')
+
     load_dotenv()
 
     dvmn_token = os.getenv('DVMN_TOKEN')
     tg_token = os.getenv('TG_TOKEN')
     tg_chat_id = os.getenv('TG_CHAT_ID')
 
-    check_dvmn_result(dvmn_token, tg_token, tg_chat_id)
+    class MyLogsHandler(logging.Handler):
+        def emit(self, record):
+            log_entry = self.format(record)
+            send_log_message(tg_token, tg_chat_id, log_entry)
+
+    logger = logging.getLogger('TG')
+    logger.setLevel(logging.INFO)
+
+    logger.addHandler(MyLogsHandler())
+
+    while True:
+        try:
+            logger.warning('Бот запущен!')
+            check_dvmn_result(dvmn_token, tg_token, tg_chat_id)
+        except Exception as err:
+            logger.error(err, exc_info=True)
 
 
 if __name__ == '__main__':
