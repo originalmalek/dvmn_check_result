@@ -74,6 +74,7 @@ def main():
             logger.warning('Бот запущен!')
             check_dvmn_result(dvmn_token, tg_token, tg_chat_id)
         except Exception as err:
+            logger.error('Бот упал с ошибкой!')
             logger.error(err, exc_info=True)
 
 
