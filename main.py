@@ -6,6 +6,23 @@ from dotenv import load_dotenv
 from time import sleep
 import logging
 
+load_dotenv()
+
+dvmn_token = os.getenv('DVMN_TOKEN')
+tg_token = os.getenv('TG_TOKEN')
+tg_chat_id = os.getenv('TG_CHAT_ID')
+
+
+class MyLogsHandler(logging.Handler):
+    def emit(self, record):
+        log_entry = self.format(record)
+        send_log_message(tg_token, tg_chat_id, log_entry)
+
+
+logger = logging.getLogger('TG')
+logger.setLevel(logging.INFO)
+logger.addHandler(MyLogsHandler())
+
 
 def send_message(tg_token, tg_chat_id, new_attempts):
     bot = telebot.TeleBot(tg_token, parse_mode='MARKDOWN')
@@ -42,7 +59,7 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
                 timestamp = dvmn_response['last_attempt_timestamp']
                 send_message(tg_token, tg_chat_id, dvmn_response['new_attempts'])
 
-            payload.update({'timestamp': timestamp})
+            payload['timestamp'] =  timestamp
         except requests.exceptions.ReadTimeout:
             pass
         except requests.exceptions.ConnectionError as e:
@@ -52,30 +69,12 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
 
 
 def main():
-
-    load_dotenv()
-
-    dvmn_token = os.getenv('DVMN_TOKEN')
-    tg_token = os.getenv('TG_TOKEN')
-    tg_chat_id = os.getenv('TG_CHAT_ID')
-
-    class MyLogsHandler(logging.Handler):
-        def emit(self, record):
-            log_entry = self.format(record)
-            send_log_message(tg_token, tg_chat_id, log_entry)
-
-    logger = logging.getLogger('TG')
-    logger.setLevel(logging.INFO)
-
-    logger.addHandler(MyLogsHandler())
-
     while True:
         try:
-            logger.warning('Бот запущен!')
+            logger.info('Бот запущен!')
             check_dvmn_result(dvmn_token, tg_token, tg_chat_id)
         except Exception as err:
-            logger.error('Бот упал с ошибкой!')
-            logger.error(err, exc_info=True)
+            logger.exception(f'Бот упал с ошибкой!\n {err}', exc_info=True)
 
 
 if __name__ == '__main__':
