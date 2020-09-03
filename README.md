@@ -6,9 +6,9 @@ The project check result of your work on [Devman](http://dvmn.org).
 The code: 
 Check your result of your work on [Devman](http://dvmn.org).
 
-* The project use:  
-  * [dvmn.org API](https://dvmn.org/api/docs/);  
-  * [Telegram API](https://core.telegram.org/bots/api) with module [pyTelegramBotAPI](https://github.com/python-telegram-bot/python-telegram-bot/wiki/Introduction-to-the-API).
+The project use:  
+ * [dvmn.org API](https://dvmn.org/api/docs/);  
+ * [Telegram API](https://core.telegram.org/bots/api) with module [pyTelegramBotAPI](https://github.com/python-telegram-bot/python-telegram-bot/wiki/Introduction-to-the-API).
   
 
 
