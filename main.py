@@ -6,8 +6,9 @@ from dotenv import load_dotenv
 from time import sleep
 import logging
 
-load_dotenv()
+logger = logging.getLogger('TG')
 
+load_dotenv()
 dvmn_token = os.getenv('DVMN_TOKEN')
 tg_token = os.getenv('TG_TOKEN')
 tg_chat_id = os.getenv('TG_CHAT_ID')
@@ -17,11 +18,6 @@ class MyLogsHandler(logging.Handler):
     def emit(self, record):
         log_entry = self.format(record)
         send_log_message(tg_token, tg_chat_id, log_entry)
-
-
-logger = logging.getLogger('TG')
-logger.setLevel(logging.INFO)
-logger.addHandler(MyLogsHandler())
 
 
 def send_message(tg_token, tg_chat_id, new_attempts):
@@ -69,6 +65,9 @@ def check_dvmn_result(dvmn_token, tg_token, tg_chat_id):
 
 
 def main():
+    logger.setLevel(logging.INFO)
+    logger.addHandler(MyLogsHandler())
+
     while True:
         try:
             logger.info('Бот запущен!')
